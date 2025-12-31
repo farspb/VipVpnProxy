@@ -1,0 +1,81 @@
+
+<section>
+  <h2 class="text-2xl sm:text-3xl font-bold text-cyan-400 mb-4">{{ title() }}</h2>
+  <div class="overflow-x-auto bg-gray-800 rounded-lg shadow-md">
+    <table class="w-full text-left text-sm text-gray-300">
+      <thead class="text-xs text-gray-400 uppercase bg-gray-700">
+        <tr>
+          <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-600 transition-colors" (click)="setSort('protocol')">
+            {{ translations().protocol }}
+            @if(sortColumn() === 'protocol') {
+              <span class="ml-1">{{ sortDirection() === 'asc' ? '▲' : '▼' }}</span>
+            }
+          </th>
+          <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-600 transition-colors" (click)="setSort('location')">
+            {{ translations().location }}
+            @if(sortColumn() === 'location') {
+              <span class="ml-1">{{ sortDirection() === 'asc' ? '▲' : '▼' }}</span>
+            }
+          </th>
+          <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-600 transition-colors" (click)="setSort('speed')">
+            {{ translations().speed }}
+            @if(sortColumn() === 'speed') {
+              <span class="ml-1">{{ sortDirection() === 'asc' ? '▲' : '▼' }}</span>
+            }
+          </th>
+          <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-600 transition-colors" (click)="setSort('ping')">
+            {{ translations().ping }}
+            @if(sortColumn() === 'ping') {
+              <span class="ml-1">{{ sortDirection() === 'asc' ? '▲' : '▼' }}</span>
+            }
+          </th>
+          <th scope="col" class="px-6 py-3">
+            {{ translations().config }}
+          </th>
+          <th scope="col" class="px-6 py-3 text-center">
+            {{ translations().action }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of sortedData(); track item.id) {
+          <tr class="border-b border-gray-700 hover:bg-gray-700/50 transition-colors">
+            <td class="px-6 py-4 font-medium text-white whitespace-nowrap">{{ item.protocol }}</td>
+            <td class="px-6 py-4">
+              <div class="flex items-center">
+                <img [src]="getCountryFlagUrl(item.countryCode)" [alt]="item.location" class="w-5 h-auto mr-2 rounded-sm" />
+                <span>{{ item.location }}</span>
+              </div>
+            </td>
+            <td class="px-6 py-4" [class]="getSpeedColor(item.speed)">
+              {{ item.speed }} Mbps
+            </td>
+            <td class="px-6 py-4" [class]="getPingColor(item.ping)">
+              {{ item.ping }} ms
+            </td>
+            <td class="px-6 py-4 font-mono text-xs text-gray-400 truncate max-w-xs">
+              {{ item.config }}
+            </td>
+            <td class="px-6 py-4 text-center">
+              <button (click)="copyConfig(item.config, item.id)" class="text-cyan-400 hover:text-cyan-300 transition-colors focus:outline-none p-2 rounded-md hover:bg-gray-600">
+                @if (copiedId() === item.id) {
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                } @else {
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                }
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="text-center py-8 text-gray-500">No data available.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
