@@ -1,0 +1,5 @@
+{
+  "name": "VIP VPN List",
+  "description": "An application to find and list secure, fast, and reliable VPN and Proxy configurations from reputable sources. Users can sort by performance, switch languages, and copy configurations with a single click.",
+  "requestFramePermissions": []
+}
